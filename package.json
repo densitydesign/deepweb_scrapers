@@ -2,14 +2,19 @@
   "name": "deepscrape",
   "version": "1.0.0",
   "description": "",
-  "main": "spooky.js",
-  "dependencies": {
-    "spooky": "^0.2.5"
-  },
-  "devDependencies": {},
+
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+
+  "license": "ISC",
+  "dependencies": {
+    "cheerio": "^0.20.0",
+    "electron-prebuilt": "^0.37.2",
+    "jquery": "^2.2.2",
+    "json2csv": "^3.2.0",
+    "nightmare": "^2.2.0"
+  }
 }
