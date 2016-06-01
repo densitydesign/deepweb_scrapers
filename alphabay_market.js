@@ -220,7 +220,7 @@ function scrapeWeapons(htmls) {
         weapon.website = site;
         weapon.product = $('h1.std').text();
         weapon.vendor = $('div.content2 div:nth-child(2) a.std').text().replace(/\n|\t/g,"").replace(/.\u002a\u002a./g,"");
-        weapon.price = $('form[name="formListing"] div.tcl:last-child span.std').text().split("USD ").pop();
+        weapon.price = $('form[name="formListing"] div.tcl:last-child span.std').text().split("USD ").pop()+" USD";
         weapon.type = $('form[name="formListing"] div.tcl:nth-of-type(1) div.tcl:nth-of-type(4)').next().text().replace(/\n|\t/g,"");
         weapon.quantity = $('form[name="formListing"] div.tcl:nth-of-type(1) div.tcl:nth-of-type(7)').next().text().replace(/\n|\t/g,"");
         weapon.from = $('form[name="formListing"] div.tcl:nth-of-type(2) div.tcl:nth-of-type(4)').next().text().replace(/\n|\t/g,"");

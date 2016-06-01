@@ -24,7 +24,7 @@ var pass = 'a1s2d3f4g5h6';
 var pin = 749613;
 var site = 'valhalla';
 var deepurl = 'http://valhallaxmn3fydu.onion/login';
-var guns_url = "http://valhallaxmn3fydu.onion/intl/categories/2502";
+var guns_url = "http://valhallaxmn3fydu.onion/intl/categories/2502?vendors=all_vendors";
 
 //VARIABILI DI SUPPORTO
 var wpn_array = [];

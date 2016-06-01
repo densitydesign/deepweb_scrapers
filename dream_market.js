@@ -71,18 +71,28 @@ function getWeapons(lst) {
             .wait("#offerDescription")
             .inject('js', 'node_modules/jquery/dist/jquery.js')
             .evaluate(function () {
-                return $(".content").html()
+
+                    return $(".content").html()
+
             })
             .then(function (d) {
-                wpn_array.push(d);
-                num++;
-                if(num <= lst.length-1) {
-                    console.log(num,(lst.length), "next");
-                    getCurrentWeapon(num);
+                console.log(d);
+                if(!d.length) {
+                    setTimeout(function() {
+                        getCurrentWeapon(num);
+                    }, 10000)
                 }
                 else {
-                    console.log(num,(lst.length),"scrape");
-                    scrapeWeapons(wpn_array);
+                    wpn_array.push(d);
+                    num++;
+                    if (num <= lst.length - 1) {
+                        console.log(num, (lst.length), "next");
+                        getCurrentWeapon(num);
+                    }
+                    else {
+                        console.log(num, (lst.length), "scrape");
+                        scrapeWeapons(wpn_array);
+                    }
                 }
             })
     }

@@ -57,6 +57,7 @@ function scrapeWeapons(htmls) {
 		
         var weapon = {}
         var re_caliber = new RegExp('<strong>Caliber</strong>: ?(.+?)<br>');
+        var re_capacity = new RegExp('<strong>Capacity</strong>: ?(.+?)<br>');
         var re_price = new RegExp('([0-9.]+) BTC');
 
         $ = cheerio.load(html);
@@ -72,6 +73,16 @@ function scrapeWeapons(htmls) {
 		catch (e)
         {
         	console.log("qualcosa non va: "+e);
+        }
+
+        try
+        {
+
+            weapon.ammo = re_capacity.exec($('.spec'))[1];
+        }
+        catch (e)
+        {
+            console.log("qualcosa non va: "+e);
         }
         console.log(weapon)
         console.log("--------------------");
