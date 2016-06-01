@@ -57,20 +57,24 @@ function scrapeWeapons(htmls) {
 		
         var weapon = {}
         var re_caliber = new RegExp('<strong>Caliber</strong>: ?(.+?)<br>');
+        var re_ammo = new RegExp('<strong>Capacity</strong>: ?(.+?)<br>');
         var re_price = new RegExp('([0-9.]+) BTC');
 
         $ = cheerio.load(html);
         weapon.website = site;
         weapon.product = $('.name').text();
-        weapon.price = re_price.exec($('.order'))[1];
-        
-        try
-        {
-        
+        weapon.price = re_price.exec($('.order'))[1] +"BTC";
+        try {
+            weapon.ammo = re_ammo.exec($('.spec'))[1];
+        }
+        catch (e){
+            console.log("qualcosa non va: "+e);
+        }
+
+        try {
 	        weapon.caliber = re_caliber.exec($('.spec'))[1];
 		}
-		catch (e)
-        {
+		catch (e) {
         	console.log("qualcosa non va: "+e);
         }
         console.log(weapon)
@@ -102,7 +106,7 @@ function scrapeAmmos(html)
 		weapon.website = site;
 		weapon.product = "Ammunition"
 		weapon.caliber = results[i].match(/([^\t]+?)[\n\t]/)[1];
-		weapon.price = results[i].match(/\$.+\((.+?) /)[1];
+		weapon.price = results[i].match(/\$.+\((.+?) /)[1] +"BTC";;
 		console.log(weapon)
         console.log("--------------------");
         toCsv.push(weapon);

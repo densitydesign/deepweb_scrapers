@@ -113,7 +113,7 @@ function scrapeWeapons(htmls) {
         weapon.product = $('div table td.listitem > i').text();
         weapon.caliber = '';
         weapon.vendor = $('div table td.listitem a[target="_vprofiles"] i').text();
-        weapon.price = $('div table tr:nth-of-type(1) td.showitem > b').text();
+        weapon.price = $('div table tr:nth-of-type(1) td.showitem:nth-of-type(1) > b').text().split("USD").shift() + " USD";
         weapon.description = $('div table tr:nth-of-type(5) dev').text().replace(/\n|\t/g,"");
         weapon.type = $('div table td.listitem > b:nth-of-type(1) > i').text();;
         weapon.quantity = '';

@@ -13,6 +13,7 @@ var nightmare = Nightmare({
     switches: {
         'proxy-server': 'socks5://127.0.0.1:9150',
         'ignore-certificate-errors': true
+
     }
 
 })
@@ -24,7 +25,7 @@ var pass = 'a1s2d3';
 var pin = 749613;
 var site = 'dream_market';
 var deepurl = 'http://lchudifyeqm4ldjj.onion';
-var guns_url = "http://lchudifyeqm4ldjj.onion/?category=194";
+var guns_url = "http://lchudifyeqm4ldjj.onion/?category=194&page=2";
 
 //VARIABILI DI SUPPORTO
 var wpn_array = [];
@@ -122,7 +123,7 @@ function writeCsv(arr) {
     console.log("writing csv");
     json2csv({ data: arr, fields: csvHeaders }, function(err, csv) {
         if (err) console.log(err);
-        fs.writeFile(site+"_"+date+'.csv', csv, function(err) {
+        fs.writeFile(site+"_"+date+'_2.csv', csv, function(err) {
             if (err) throw err;
             console.log('file saved');
         });
