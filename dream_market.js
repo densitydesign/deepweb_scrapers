@@ -25,7 +25,7 @@ var pass = 'a1s2d3';
 var pin = 749613;
 var site = 'dream_market';
 var deepurl = 'http://lchudifyeqm4ldjj.onion';
-var guns_url = "http://lchudifyeqm4ldjj.onion/?category=194&page=2";
+var guns_url = "http://lchudifyeqm4ldjj.onion/?category=194";
 
 //VARIABILI DI SUPPORTO
 var wpn_array = [];
@@ -67,23 +67,36 @@ function getWeapons(lst) {
 
     function getCurrentWeapon(num) {
 
+        console.log("##########");
+
         nightmare
             .goto(lst[num])
             .wait("#offerDescription")
             .inject('js', 'node_modules/jquery/dist/jquery.js')
             .evaluate(function () {
-                return $(".content").html()
+
+                    return $(".content").html()
+
             })
             .then(function (d) {
-                wpn_array.push(d);
-                num++;
-                if(num <= lst.length-1) {
-                    console.log(num,(lst.length), "next");
-                    getCurrentWeapon(num);
+                console.log("this is d", d.length);
+                if(!d.length) {
+                    setTimeout(function() {
+                        console.log("re-run!");
+                        getCurrentWeapon(num);
+                    }, 10000)
                 }
                 else {
-                    console.log(num,(lst.length),"scrape");
-                    scrapeWeapons(wpn_array);
+                    wpn_array.push(d);
+                    num++;
+                    if (num <= lst.length - 1) {
+                        console.log(num, (lst.length), "next");
+                        getCurrentWeapon(num);
+                    }
+                    else {
+                        console.log(num, (lst.length), "scrape");
+                        scrapeWeapons(wpn_array);
+                    }
                 }
             })
     }
@@ -123,7 +136,7 @@ function writeCsv(arr) {
     console.log("writing csv");
     json2csv({ data: arr, fields: csvHeaders }, function(err, csv) {
         if (err) console.log(err);
-        fs.writeFile(site+"_"+date+'_2.csv', csv, function(err) {
+        fs.writeFile(site+"_"+date+'.csv', csv, function(err) {
             if (err) throw err;
             console.log('file saved');
         });
