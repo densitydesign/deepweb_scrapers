@@ -28,6 +28,7 @@ var deepurl = 'http://lchudifyeqm4ldjj.onion';
 var guns_url = "http://lchudifyeqm4ldjj.onion/?category=194";
 
 //VARIABILI DI SUPPORTO
+var raw_wpns = [];
 var wpn_array = [];
 var toCsv = [];
 
@@ -48,16 +49,40 @@ nightmare
     .goto(guns_url)
     .inject('js', 'node_modules/jquery/dist/jquery.js')
     .evaluate(function(){
-        return $("div.oImage a").map(function() {
-            return this.href;
-        }).get();
+        return $("ul.pageNav:first-child .pager").length/2;
     })
-    .then(function(wpn_list){
+    .then(function(pages){
         //console.log(wpn_list);
-        getWeapons(wpn_list);
+        getWeaponPages(pages,1);
     });
 
 
+function getWeaponPages(p, num) {
+
+    nightmare
+    .goto(guns_url+"&page="+num)
+    .inject('js', 'node_modules/jquery/dist/jquery.js')
+    .evaluate(function () {
+        return $("div.oImage a").map(function () {
+            return this.href;
+        }).get();
+    })
+        .then(function (wpn_list) {
+            console.log(num, p);
+            num = num+1;
+            raw_wpns = raw_wpns.concat(wpn_list);
+            if(num >= p+1) {
+                console.log("scrape now!");
+                console.log(raw_wpns);
+                getWeapons(raw_wpns);
+            }
+            else{
+                console.log("get next page");
+                getWeaponPages(p, num);
+            }
+        });
+
+}
 
 // fase 2 - recupero HTML per ogni arma
 function getWeapons(lst) {
@@ -71,23 +96,26 @@ function getWeapons(lst) {
 
         nightmare
             .goto(lst[num])
-            .wait("#offerDescription")
+            .wait("body")
             .inject('js', 'node_modules/jquery/dist/jquery.js')
             .evaluate(function () {
 
-                    return $(".content").html()
+                    return $("body").html()
 
             })
             .then(function (d) {
                 console.log("this is d", d.length);
-                if(!d.length) {
+                $ = cheerio.load(d);
+                console.log($(".content"),$(".content").length);
+                if(!$(".content").length) {
+                    console.log("re-run!");
                     setTimeout(function() {
-                        console.log("re-run!");
+
                         getCurrentWeapon(num);
                     }, 10000)
                 }
                 else {
-                    wpn_array.push(d);
+                    wpn_array.push($(".content").html());
                     num++;
                     if (num <= lst.length - 1) {
                         console.log(num, (lst.length), "next");
